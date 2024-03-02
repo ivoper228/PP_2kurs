@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="1651a805-20da-4363-bf3a-1deb17670de7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/pp.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/pp.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wwwwproject/lms_system/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wwwwproject/lms_system/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resourge/Diograms.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resourge/db_pp.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resourge/desktop.ini" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resourge/МПП.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resourge/бариста.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resourge/менеджер.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../resourge/управляющий.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
