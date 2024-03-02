@@ -1,0 +1,68 @@
+USE [pp_db]
+CREATE TABLE [rules]( --??????? ?????
+	id INT PRIMARY KEY IDENTITY(1,1), 
+	[name] NVARCHAR(40) NOT NULL,
+	[level] INT NOT NULL
+)
+
+CREATE TABLE topic( --??????? ??????
+	id INT PRIMARY KEY  IDENTITY(1,1), 
+	[name] NVARCHAR(40) NOT NULL,
+	is_public BIT NOT NULL,
+	id_parent INT NULL,
+	id_rule INT CONSTRAINT FK_RULES REFERENCES [rules](id)
+)
+
+CREATE TABLE worker( --??????? ???????????
+	id INT PRIMARY KEY  IDENTITY(1,1), 
+	[name] NVARCHAR(40) NOT NULL,
+	fname NVARCHAR(20) NOT NULL,
+	id_parent INT NULL,
+	id_rule INT CONSTRAINT FK_RULES_WORKER REFERENCES [rules](id)
+)
+CREATE TABLE [files]( --??????? ?????? ???????????
+	id_files INT PRIMARY KEY  IDENTITY(1,1), 
+	id_worker INT CONSTRAINT FK_FILES REFERENCES worker(id),
+	[img] IMAGE NOT NULL
+)
+
+CREATE TABLE tests( --??????? ? ??????? ?????
+	id INT PRIMARY KEY  IDENTITY(1,1), 
+	id_topic INT CONSTRAINT FK_TOPIC_TESTS REFERENCES topic(id),
+	question TEXT NOT NULL
+)
+
+CREATE TABLE answers( --??????? ??????? ?????
+	id INT PRIMARY KEY  IDENTITY(1,1), 
+	id_test INT CONSTRAINT FK_TEST REFERENCES tests(id),
+	answer TEXT NOT NULL,
+	istrue BIT NOT NULL
+)
+
+CREATE TABLE lessons( --??????? ??????
+	id INT PRIMARY KEY  IDENTITY(1,1), 
+	id_topic INT CONSTRAINT FK_TOPIC_LESSONS REFERENCES topic(id),
+	[name] NVARCHAR(40) NOT NULL,
+	answer TEXT NOT NULL,
+	istrue BIT NOT NULL
+)
+
+CREATE TABLE subjects( --??????? ??? ??????
+	id INT PRIMARY KEY  IDENTITY(1,1), 
+	id_lesson INT CONSTRAINT FK_LESSONS REFERENCES lessons(id),
+	[name] NVARCHAR(40) NOT NULL,
+	answer TEXT NOT NULL,
+	[image] IMAGE NULL
+)
+
+CREATE TABLE progresstests( --??????? ????????? ??????????? ?? ??????
+	id_worker INT CONSTRAINT FK_PROGRESST_WORKER REFERENCES worker(id),
+	id_tests INT CONSTRAINT FK_PROGRESST_TESTS REFERENCES tests(id),
+	[status] BIT NULL
+)
+
+CREATE TABLE progresslesons( --??????? ????????? ??????????? ?? ??????
+	id_worker INT CONSTRAINT FK_PROGRESSL_WORKER REFERENCES worker(id),
+	id_lesson INT CONSTRAINT FK_PROGRESSL_LESSONS REFERENCES lessons(id),
+	[status] BIT NULL
+)
