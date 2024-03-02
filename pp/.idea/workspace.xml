@@ -5,6 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1651a805-20da-4363-bf3a-1deb17670de7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wwwwproject/lms_system/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/wwwwproject/lms_system/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wwwwproject/lms_system/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wwwwproject/lms_system/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -19,6 +21,9 @@
   &quot;associatedIndex&quot;: 0
 }</component>
   <component name="ProjectId" id="2d7mbRNRQsiEP9UIloKl8U49YZx" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
