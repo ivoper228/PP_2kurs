@@ -74,12 +74,12 @@ class Progresslesons(models.Model):
 		return self.id_lesson +" "+self.status
 
 class Invite(models.Model):
-	id_worker = models.ImageField( null=True)
+	id_worker = models.IntegerField( null=True)
 	id_worker_parents = models.ForeignKey(Worker, on_delete=models.CASCADE)
 	mail = models.EmailField()
 	id_rules = models.ForeignKey(Rules, on_delete=models.CASCADE)
 	urlgen = models.UUIDField()
 	def __str__(self):
-		return self.id_worker +" "+self.id_rules
+		return self.mail
 
 
