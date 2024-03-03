@@ -4,5 +4,15 @@
 {%endblock%}
 
 {% block context %}
-<h2>Тут мужики</h2>
+<div>
+    <h2>Личный кабинет</h2>
+<form method="post">
+    {% csrf_token %}
+    <p>{{form.name}}</p>
+    <p>{{form.fname}}</p>
+    <p>{{form.mail}}</p>
+    <button type="submit">Сохранить</button>
+    <span>{{err}}</span>
+</form>
+</div>
 {% endblock %}

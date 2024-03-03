@@ -15,7 +15,7 @@
     <p><input type="checkbox" name="answer_{{ q.id }}">{{q.answer}}</p>
 
     {% endfor %}
-    {% if flag %}
+    {% if not flag %}
     <p>Неверно балбес!</p>
     {% endif %}
     <button type="submit">Пройти тест</button>

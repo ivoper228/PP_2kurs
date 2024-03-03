@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
@@ -96,37 +96,31 @@ def test(request, urlgen):
         test = Tests.objects.get(id = q_id)
 
         if test:
+
             answers = Answers.objects.filter(id_test=test)
 
             flag = False
 
             for a in answers:
+                print(a)
 
                 flag = False
 
                 if a.istrue:
-                    if "id_" + a.id in request.POST:
+                    print(' '.join(request.POST))
+                    if ("answer_" + str(a.id)) in request.POST:
                         flag = True
                 else:
-                    if "id_" + a.id not in request.POST:
-                        flag = True
-
+                    if "answer_" + str(a.id) not in request.POST:
+                       flag = True
                 if not flag:
                     break
-
-                if flag:
-                    tests = Progresstests.objects.filter(status=False, id_worker=m.id_worker, id_test=test)[:1]
+            if flag:
+                tests = Progresstests.objects.filter(status=False, id_worker=m.id_worker, id_test=test)[:1]
                 if tests:
                     tests[0].status = True
                     tests[0].save()
 
-
-
-
-
-        #for val in request.POST:
-            #print(val)
-        #    print(request.POST.get('quest_1',''))
 
     tests = Progresstests.objects.filter(status=False, id_worker=m.id_worker)[:1]
 
@@ -152,7 +146,35 @@ def test(request, urlgen):
 
 
 def lk(request, urlgen):
-    return render(request, "lms_system/lk.html",{'urlgen':urlgen})
+
+    flag = True
+    try:
+      m: Invite = Invite.objects.get(urlgen = urlgen)  # ObjectDoesNotExist
+    except ObjectDoesNotExist:
+        return render(request, "lms_system/404.html")
+
+
+    err = ''
+    w = Worker.objects.get(id=m.id_worker)
+    if not w:
+        return render(request, "lms_system/404.html")
+
+    if (request.method == "POST"):
+        form = WorkerForms(request.POST, instance=w)
+        if form.is_valid():
+            form.save()
+            return redirect('topic',urlgen)
+        else:
+            err="Неверно заполнена форма"
+
+    form = WorkerForms(instance=w)
+
+    cont = {
+        'urlgen': urlgen,
+        'form': form,
+        'err':err
+    }
+    return render(request, "lms_system/lk.html",cont)
 
 
 
