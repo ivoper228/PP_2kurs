@@ -55,7 +55,7 @@ class Subjects(models.Model):
 	name = models.CharField(max_length=128)
 	id_lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
 	cont = models.TextField(null=True)
-	image = models.ImageField(null=True)
+	image = models.ImageField(null=True, upload_to='images')
 	def __str__(self):
 		return self.name
 

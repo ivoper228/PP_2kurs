@@ -4,5 +4,20 @@
 {% endblock %}
 
 {% block context %}
-<h2>Тут женщины</h2>
+<h2>Курсы</h2>
+{% for top, less in topic.items %}
+<div>
+    <h3>{{ top }}</h3>
+        {% for les, subs in less.items %}
+            <h4>{{ les }}</h4>
+            {% for sub in subs %}
+            <p>{{ sub }}</p>
+    <img src="{{sub.image.url}}" width= "189" height="255">
+    <p>{{sub.cont}}</p>
+            {% endfor %}
+        {% endfor %}
+</div>
+
+
+{% endfor %}
 {% endblock %}

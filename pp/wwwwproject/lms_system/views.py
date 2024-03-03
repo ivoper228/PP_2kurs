@@ -5,32 +5,74 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 
 def invate(request, urlgen):
-
     try:
       m: Invite = Invite.objects.get(urlgen = urlgen)  # ObjectDoesNotExist
     except ObjectDoesNotExist:
         return render(request, "lms_system/404.html")
 
-    if Worker.objects.filter(id = m.id_worker):
-        return render(request, "lms_system/file.html", {'urlgen':urlgen})#заходит на страницу курса
-
-    #try:
-    #   with transaction.atomic():
-    n: Worker = Worker()
-    n.name = " "
-    n.fname = " "
-    n.mail = m.mail
-    n.id_parent = m.id_worker_parents
-    n.id_rule = Rules.objects.get(id=1)
-    n.save()
-    m.id_worker = n.pk
-    m.save()
-    #except IntegrityError:
-    #    return render(request, "lms_system/404.html")
+    if not(Worker.objects.filter(id = m.id_worker)):
+        # try:
+        #   with transaction.atomic():
+        # except IntegrityError:
+        #    return render(request, "lms_system/404.html")
+        n: Worker = Worker()
+        n.name = " "
+        n.fname = " "
+        n.mail = m.mail
+        n.id_parent = m.id_worker_parents
+        n.id_rule = Rules.objects.get(id=1)
+        n.save()
+        m.id_worker = n.pk
+        m.save()
 
 
-    return lk(request, urlgen)
+        topic_new: Topic = Topic.objects.filter(id_rule=m.id_rules)
+        for i in topic:
+            lesson: Lesson = Lesson.objects.filter(id_topic=i.pk)
+
+
+            for j in lesson:
+                progl: Progresslesons = Progresslesons()
+                progl.id_worker =  n.pk
+                progl.id_lesson = j.pk
+                progl.status = True
+                progl.save()
+
+            test: Tests = Tests.objects.filter(id_topic=i.pk)
+            for j in test:
+                progt: Progresstests = Progresstests()
+                progt.id_worker =  n.pk
+                progt.id_test = j.pk
+                progt.status = False
+                progt.save()
+
+        return lk(request, urlgen)
+
+    #{topic:{lesson:[]}}}
+    #
+    dict_topic = {}
+    topic: Topic = Topic.objects.all()
+    for i in topic:
+        lesson: Lesson = Lesson.objects.filter(id_topic = i.pk)
+        dict_less = {}
+        for j in lesson:
+            subject: Subjects = Subjects.objects.filter(id_lesson = j.pk)
+            sub = []
+            for k in subject:
+                sub.append(k)
+
+            dict_less[j] = sub
+        dict_topic[i] = dict_less
+
+    return render(request, "lms_system/file.html", {'topic': dict_topic, 'urlgen':urlgen})#заходит на страницу курса
+
+
+
+
+
 
 def lk(request, urlgen):
     return render(request, "lms_system/lk.html",{'urlgen':urlgen})
+
+
 
