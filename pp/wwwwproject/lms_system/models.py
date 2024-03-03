@@ -63,8 +63,8 @@ class Progresstests(models.Model):
 	id_worker = models.ForeignKey(Worker, on_delete=models.CASCADE)
 	id_test = models.ForeignKey(Tests, on_delete=models.CASCADE)
 	status = models.BooleanField(null=True)
-	def __str__(self):
-		return self.id_test +" "+self.status
+def __str__(self):
+		return str(self.id_test)
 
 class Progresslesons(models.Model):
 	id_worker = models.ForeignKey(Worker, on_delete=models.CASCADE)

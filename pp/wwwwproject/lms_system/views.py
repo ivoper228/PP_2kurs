@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import *
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
+from .forms import *
 
 def invate(request, urlgen):
     try:
@@ -26,46 +27,89 @@ def invate(request, urlgen):
         m.save()
 
 
-        topic_new: Topic = Topic.objects.filter(id_rule=m.id_rules)
+        topic = Topic.objects.filter(id_rule=m.id_rules)
+        print (topic)
+
         for i in topic:
+
             lesson: Lesson = Lesson.objects.filter(id_topic=i.pk)
 
+            print(lesson)
 
             for j in lesson:
                 progl: Progresslesons = Progresslesons()
-                progl.id_worker =  n.pk
-                progl.id_lesson = j.pk
+                progl.id_worker =  n
+                progl.id_lesson = j
                 progl.status = True
                 progl.save()
 
             test: Tests = Tests.objects.filter(id_topic=i.pk)
+
             for j in test:
                 progt: Progresstests = Progresstests()
-                progt.id_worker =  n.pk
-                progt.id_test = j.pk
+                progt.id_worker =  n
+                progt.id_test = j
                 progt.status = False
                 progt.save()
 
         return lk(request, urlgen)
 
-    #{topic:{lesson:[]}}}
-    #
     dict_topic = {}
-    topic: Topic = Topic.objects.all()
-    for i in topic:
-        lesson: Lesson = Lesson.objects.filter(id_topic = i.pk)
-        dict_less = {}
-        for j in lesson:
-            subject: Subjects = Subjects.objects.filter(id_lesson = j.pk)
-            sub = []
-            for k in subject:
-                sub.append(k)
 
-            dict_less[j] = sub
-        dict_topic[i] = dict_less
+    progrsl = Progresslesons.objects.filter(id_worker = m.id_worker)
+
+    i: Progresslesons
+    for i  in progrsl:
+        l = i.id_lesson
+        t = l.id_topic
+
+        if t in dict_topic:
+            dict_less = dict_topic[t].values()
+        else:
+            dict_less = {}
+
+        subject: Subjects = Subjects.objects.filter(id_lesson = l.pk)
+        sub = []
+        for k in subject:
+            sub.append(k)
+
+        dict_less[l] = sub
+        dict_topic[t] = dict_less
+
+
 
     return render(request, "lms_system/file.html", {'topic': dict_topic, 'urlgen':urlgen})#заходит на страницу курса
 
+def test(request, urlgen):
+    try:
+      m: Invite = Invite.objects.get(urlgen = urlgen)  # ObjectDoesNotExist
+    except ObjectDoesNotExist:
+        return render(request, "lms_system/404.html")
+
+    if not (Worker.objects.filter(id=m.id_worker)):
+        invate(request, urlgen)
+
+    if (request.method=="POST"):
+        pass
+
+
+    tests = Progresstests.objects.filter(status=False, id_worker=m.id_worker)[:1]
+
+    if tests:
+
+        t = tests[0].id_test
+        p = Answers.objects.filter(id_test = t)
+
+        form = TestForms()
+        cont = {'urlgen': urlgen,
+                'answer':p,
+                'tests':t,
+
+                }
+
+        return render(request, "lms_system/test.html", cont)  # заходит на страницу курса
+    else:
+        return render(request, "lms_system/test1.html", {'urlgen':urlgen})#заходит на страницу курса
 
 
 

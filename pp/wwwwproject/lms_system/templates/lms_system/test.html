@@ -1,0 +1,25 @@
+{% extends 'lms_system/base.html' %}
+{% block title %}
+Личный кабинет
+{% endblock %}
+
+{% block context %}
+
+<div>
+    <h2>{{tests.questions}}</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {% for q in answer %}
+    <p><input type="checkbox" name="id_{{ q.id }}">{{q.answer}}</p>
+
+    {% endfor %}
+    <button type="submit">Пройти тест</button>
+</form>
+
+
+</div>
+
+
+
+{% endblock %}
