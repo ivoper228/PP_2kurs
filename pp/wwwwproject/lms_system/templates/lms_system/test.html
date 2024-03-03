@@ -10,10 +10,14 @@
 
 <form method="post">
     {% csrf_token %}
+    <input type="hidden" name="quest" value="{{ tests.id }}">
     {% for q in answer %}
-    <p><input type="checkbox" name="id_{{ q.id }}">{{q.answer}}</p>
+    <p><input type="checkbox" name="answer_{{ q.id }}">{{q.answer}}</p>
 
     {% endfor %}
+    {% if flag %}
+    <p>Неверно балбес!</p>
+    {% endif %}
     <button type="submit">Пройти тест</button>
 </form>
 

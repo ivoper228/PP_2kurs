@@ -81,6 +81,7 @@ def invate(request, urlgen):
     return render(request, "lms_system/file.html", {'topic': dict_topic, 'urlgen':urlgen})#заходит на страницу курса
 
 def test(request, urlgen):
+    flag = True
     try:
       m: Invite = Invite.objects.get(urlgen = urlgen)  # ObjectDoesNotExist
     except ObjectDoesNotExist:
@@ -90,8 +91,42 @@ def test(request, urlgen):
         invate(request, urlgen)
 
     if (request.method=="POST"):
-        pass
+        q_id = request.POST.get('quest')
 
+        test = Tests.objects.get(id = q_id)
+
+        if test:
+            answers = Answers.objects.filter(id_test=test)
+
+            flag = False
+
+            for a in answers:
+
+                flag = False
+
+                if a.istrue:
+                    if "id_" + a.id in request.POST:
+                        flag = True
+                else:
+                    if "id_" + a.id not in request.POST:
+                        flag = True
+
+                if not flag:
+                    break
+
+                if flag:
+                    tests = Progresstests.objects.filter(status=False, id_worker=m.id_worker, id_test=test)[:1]
+                if tests:
+                    tests[0].status = True
+                    tests[0].save()
+
+
+
+
+
+        #for val in request.POST:
+            #print(val)
+        #    print(request.POST.get('quest_1',''))
 
     tests = Progresstests.objects.filter(status=False, id_worker=m.id_worker)[:1]
 
@@ -104,6 +139,7 @@ def test(request, urlgen):
         cont = {'urlgen': urlgen,
                 'answer':p,
                 'tests':t,
+                'flag':flag,
 
                 }
 
