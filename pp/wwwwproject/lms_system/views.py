@@ -52,7 +52,7 @@ def invate(request, urlgen):
                 progt.status = False
                 progt.save()
 
-        return lk(request, urlgen)
+        return redirect('lk',urlgen)
 
     dict_topic = {}
 
